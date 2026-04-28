@@ -38,3 +38,13 @@ After any code change:
 3. Run `uv run mypy gauntlet tests --strict` - no type errors
 
 Pre-commit enforces rules 2 and 3 automatically on `git commit`.
+
+---
+
+## Post-push follow-up (auto-schedule)
+
+Per the workspace "Default to proactive scheduling" rule: after pushing to `main`, schedule a wake-up to verify CI passed.
+
+- **Cadence**: 240s after push.
+- **Verify CI**: `coily gh run list --repo coilysiren/gauntlet --limit 1` should show `completed/success`. Re-schedule once at +180s if in progress; surface and stop on failure.
+- **Skip** for docs-only pushes.
