@@ -1,4 +1,4 @@
-"""Structured stderr logging for per-MCP-tool-call observability.
+"""Structured stderr logging for per-MCP-tool-call o11y.
 
 One JSON line per tool invocation, written to stderr via the stdlib
 ``logging`` module. The host pipes stderr wherever it wants (terminal, file,
