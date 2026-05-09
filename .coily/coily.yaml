@@ -1,0 +1,30 @@
+# Per-repo command allowlist for gauntlet. Coily is the canonical entry
+# point for dev verbs here; the lockdown denies bare uv/docker invocations,
+# so operators (human or agent) type `coily <verb>`, not `uv run pytest`.
+#
+# Test gate is docker-compose-based per AGENTS.md: `docker compose run --rm
+# test` is the canonical pre-commit run. Lint and type checks run via uv.
+#
+# Names follow coily's [a-z0-9-] rule. Argv validation rejects shell
+# metacharacters at invocation time, so flags forward verbatim through
+# coily's user-extras mechanism.
+
+commands:
+  test:
+    run: docker compose run --rm test
+    description: Run the pytest suite inside the canonical docker-compose environment. Matches the pre-commit gate.
+  lint:
+    run: uv run ruff check .
+    description: Lint with ruff.
+  fmt-check:
+    run: uv run ruff format --check .
+    description: Verify ruff formatting is clean.
+  fmt:
+    run: uv run ruff format .
+    description: Apply ruff formatting in place.
+  typecheck:
+    run: uv run mypy gauntlet tests --strict
+    description: Strict mypy type-check across gauntlet/ and tests/.
+  sync:
+    run: uv sync
+    description: Install runtime + dev deps via uv.
