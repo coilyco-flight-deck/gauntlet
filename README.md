@@ -47,6 +47,12 @@ claude --plugin-dir path/to/gauntlet
 
 On first invocation, `uv` auto-resolves the Python dependencies for the MCP server. Confirm the plugin is discovered with `/mcp` (for the server) and by trying a trigger phrase like "run gauntlet" (for the skill) inside Claude Code.
 
+### Updates
+
+Third-party plugin marketplaces have auto-update off by default in Claude Code. To receive new Gauntlet versions automatically, run `/plugin`, switch to the **Marketplaces** tab, select `coilysiren-gauntlet`, and choose **Enable auto-update**. Claude Code will refresh on startup and prompt you to run `/reload-plugins` when a new version lands.
+
+To update once on demand: `/plugin marketplace update coilysiren-gauntlet`, then `/reload-plugins`.
+
 ### What you get
 
 - **MCP server `gauntlet`** — the deterministic tools listed below.

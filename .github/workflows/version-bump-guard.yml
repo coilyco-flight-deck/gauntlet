@@ -1,0 +1,66 @@
+name: Version bump guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  guard:
+    name: Require version bump on code changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute base and head refs
+        id: refs
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_AFTER: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            base="$PR_BASE_SHA"
+            head="$PR_HEAD_SHA"
+          else
+            base="$PUSH_BEFORE"
+            head="$PUSH_AFTER"
+          fi
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            echo "no base ref (initial push or shallow); skipping guard"
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "head=$head" >> "$GITHUB_OUTPUT"
+
+      - name: Check guarded paths vs plugin.json version
+        if: steps.refs.outputs.skip != '1'
+        env:
+          BASE: ${{ steps.refs.outputs.base }}
+          HEAD: ${{ steps.refs.outputs.head }}
+        run: |
+          set -euo pipefail
+          changed=$(git diff --name-only "$BASE" "$HEAD")
+          guarded=$(echo "$changed" | grep -E '^(gauntlet/|skills/|agents/|\.claude-plugin/)' || true)
+          if [ -z "$guarded" ]; then
+            echo "no guarded paths changed; pass"
+            exit 0
+          fi
+          echo "guarded paths changed:"
+          echo "$guarded"
+          base_ver=$(git show "$BASE:.claude-plugin/plugin.json" | python3 -c 'import json,sys;print(json.load(sys.stdin)["version"])')
+          head_ver=$(git show "$HEAD:.claude-plugin/plugin.json" | python3 -c 'import json,sys;print(json.load(sys.stdin)["version"])')
+          echo "plugin.json version: $base_ver -> $head_ver"
+          if [ "$base_ver" = "$head_ver" ]; then
+            echo "::error::guarded paths changed but plugin.json version did not bump."
+            echo "run 'coily exec release <patch|minor|major> --issue N' to cut a release."
+            exit 1
+          fi
+          echo "version bumped; pass"
