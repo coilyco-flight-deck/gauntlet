@@ -109,3 +109,11 @@ These are guarded by [SCOPE.md](../SCOPE.md) under "Non-goals" and should not ap
 - No CI gate, GitHub Action, or pre-commit hook shipped from this repo.
 - No auth beyond a header dict (no OAuth, env-var indirection, token refresh).
 - No retry/backoff or rate limiting in `execute_plan`.
+
+## See also
+
+- [README.md](../README.md) - human-facing intro.
+- [AGENTS.md](../AGENTS.md) - agent-facing operating rules.
+- [.coily/coily.yaml](../.coily/coily.yaml) - allowlisted commands.
+
+Cross-reference convention from [coilysiren/coilyco-ai#313](https://github.com/coilysiren/coilyco-ai/issues/313).
