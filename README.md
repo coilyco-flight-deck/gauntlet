@@ -200,3 +200,7 @@ Architectural divergence: ToolFuzz runs its own LLM client end-to-end (its own c
 ### Where Gauntlet sits
 
 The closest comparison - ToolFuzz - is a self-contained LLM-driven fuzzer for agent tools. Gauntlet is the same idea pushed one layer further: instead of bundling its own LLM, it ships as an MCP server + Skill that a Claude Code host drives. This is the right shape for the dark-factory use case, where the host is already running and already has credentials; it also makes the train/test split a host-side prompt discipline rather than a compile-time check, which is the honest framing given that all three parties (Attacker, Inspector, HoldoutEvaluator) are contexts inside one agent.
+
+## Commands
+
+Dev commands are declared in [`.coily/coily.yaml`](.coily/coily.yaml). Run them as `coily exec <verb>`.

@@ -48,3 +48,7 @@ Per the workspace "Default to proactive scheduling" rule: after pushing to `main
 - **Cadence**: 240s after push.
 - **Verify CI**: `coily gh run list --repo coilysiren/gauntlet --limit 1` should show `completed/success`. Re-schedule once at +180s if in progress; surface and stop on failure.
 - **Skip** for docs-only pushes.
+
+## Commands
+
+Route every dev command through coily, which reads [`.coily/coily.yaml`](.coily/coily.yaml). The lockdown denies bare invocations of the underlying tools (`uv`, `docker`, etc.). Add new verbs to that file before invoking them.
