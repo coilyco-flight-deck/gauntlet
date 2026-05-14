@@ -34,3 +34,16 @@ commands:
       Bump plugin.json / marketplace.json / pyproject.toml in lockstep, commit, tag vX.Y.Z, push.
       Usage: coily exec release <patch|minor|major> --issue N [--dry-run] [--no-push].
       The --issue flag names a release-tracking issue the commit closes (required by the commit-msg hook).
+
+# Catalog metadata for the cross-repo knowledge graph.
+# Schema: coilysiren/coilyco-ai#420 (tracker).
+catalog:
+  kind: Component
+  type: service
+  system: observability
+  owner: kai
+  lifecycle: production
+  description: "Two-role adversarial MCP server that infers software correctness by observing how code behaves under sustained, targeted attack."
+  dependsOn: []
+  providesApis:
+    - gauntlet-mcp
