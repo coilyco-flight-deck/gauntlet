@@ -56,7 +56,7 @@ Setup:
 
 Safety constraints:
 - Run gauntlet only against {{SERVICE_URL}} or a localhost copy. {{DOWNSTREAM_SAFETY}}
-- Follow workspace conventions in ~/projects/coilysiren/coilyco-ai/AGENTS.md:
+- Follow workspace conventions in ~/projects/coilysiren/agentic-os-kai/AGENTS.md:
   no em-dashes, she/her pronouns, commit-per-coherent-unit cadence, push
   after each commit, no PRs unless I ask.
 ````
@@ -148,5 +148,5 @@ Safety constraints:
   copy. Trial sets may name other public Eco servers (AWLGaming,
   GreenLeaf, etc.) as legitimate downstream targets the SUT proxies to;
   do not attack those, only my service's handling of them.
-- Follow workspace conventions in ~/projects/coilysiren/coilyco-ai/AGENTS.md.
+- Follow workspace conventions in ~/projects/coilysiren/agentic-os-kai/AGENTS.md.
 ````

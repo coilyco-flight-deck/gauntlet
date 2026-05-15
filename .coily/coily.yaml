@@ -36,7 +36,7 @@ commands:
       The --issue flag names a release-tracking issue the commit closes (required by the commit-msg hook).
 
 # Catalog metadata for the cross-repo knowledge graph.
-# Schema: coilysiren/coilyco-ai#420 (tracker).
+# Schema: coilysiren/agentic-os-kai#420 (tracker).
 catalog:
   kind: Component
   type: service
