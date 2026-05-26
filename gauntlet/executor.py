@@ -64,9 +64,8 @@ def _apply_extractions(step: PlanStep, body: dict[str, Any], context: dict[str, 
         if value is not _MISSING:
             context[var_name] = value
 
-    # Legacy backward-compat: pre-``extract`` plans that POST to /tasks used to
-    # auto-populate {task_id}. Only kick in when the caller didn't opt into
-    # explicit extraction, so new plans retain full control.
+    # Legacy: pre-extract plans POSTing to /tasks auto-populate {task_id}.
+    # Only kicks in when the caller didn't opt into explicit extraction.
     if (
         not step.extract
         and step.request.method == "POST"

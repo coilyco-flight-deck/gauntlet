@@ -20,9 +20,7 @@ from gauntlet import (
 from gauntlet._plausibility import check_holdout_plausibility
 from gauntlet.server import record_holdout_result, start_run
 
-# ---------------------------------------------------------------------------
 # Plan builders shared across the heuristic tests.
-# ---------------------------------------------------------------------------
 
 
 def _single_user_plan() -> Plan:
@@ -60,9 +58,7 @@ def _two_user_plan() -> Plan:
     )
 
 
-# ---------------------------------------------------------------------------
 # Cross-user heuristic
-# ---------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize(
@@ -96,9 +92,7 @@ def test_non_cross_user_blocker_does_not_flag() -> None:
     assert warnings == []
 
 
-# ---------------------------------------------------------------------------
 # Status-code heuristic
-# ---------------------------------------------------------------------------
 
 
 def test_status_code_blocker_flags_missing_assertion() -> None:
@@ -153,9 +147,7 @@ def test_status_code_blocker_with_multiple_codes_reports_only_missing() -> None:
     assert not any("403" in w and "no assertion" in w for w in warnings)
 
 
-# ---------------------------------------------------------------------------
 # Method heuristic
-# ---------------------------------------------------------------------------
 
 
 def test_method_blocker_flags_missing_method() -> None:
@@ -204,9 +196,7 @@ def test_method_heuristic_is_case_insensitive_against_lowercase_blocker() -> Non
     assert any("DELETE" in w for w in warnings)
 
 
-# ---------------------------------------------------------------------------
 # Integration: record_holdout_result surfaces warnings
-# ---------------------------------------------------------------------------
 
 
 def _execution_result_single_user() -> ExecutionResult:

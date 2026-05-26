@@ -239,9 +239,7 @@ def _conclusion(risk_level: str, confirmed_failures: list[str]) -> str:
     return f"System survived the current adversarial loop with {risk_level} risk."
 
 
-# ---------------------------------------------------------------------------
 # Risk-report deterministic intelligence
-# ---------------------------------------------------------------------------
 
 
 def _cluster_failures(blocker_findings: list[Finding]) -> list[FailureCluster]:
@@ -385,10 +383,8 @@ _SIZE_BUCKETS: list[tuple[int, str]] = [
 
 
 def _response_size_bucket(body: Any) -> str:
-    # A stable, cheap estimate: len of the repr. We do not re-serialize to
-    # JSON here because that would couple coarse bucketing to serializer
-    # behavior, and the buckets are coarse enough that any consistent
-    # measure is fine.
+    # Stable cheap estimate via len(repr); avoids coupling coarse
+    # buckets to serializer behavior.
     try:
         size = len(repr(body)) if body else 0
     except Exception:

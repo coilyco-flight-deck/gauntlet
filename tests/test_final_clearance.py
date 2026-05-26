@@ -30,9 +30,7 @@ def _spec(name: str = "baseline") -> IterationSpec:
     return IterationSpec(index=1, name=name, goal=name)
 
 
-# ---------------------------------------------------------------------------
 # Direct aggregator (loop-level)
-# ---------------------------------------------------------------------------
 
 
 def _wr(
@@ -156,9 +154,7 @@ def test_holdout_score_drags_overall_below_confidence() -> None:
     assert final.final_recommendation == "block"
 
 
-# ---------------------------------------------------------------------------
 # MCP tool integration with the run buffer
-# ---------------------------------------------------------------------------
 
 
 _AUTHZ_PLAN = Plan(

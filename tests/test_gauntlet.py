@@ -18,9 +18,7 @@ from gauntlet.server import get_trial, list_trials
 
 from ._factories import make_execution_result
 
-# ---------------------------------------------------------------------------
 # Shared authorization probe used to anchor model shapes across tests.
-# ---------------------------------------------------------------------------
 
 _AUTHZ_PLAN = Plan(
     name="user_cannot_modify_other_users_task",
@@ -50,9 +48,7 @@ def _spec(name: str = "baseline") -> IterationSpec:
     return IterationSpec(index=1, name=name, goal=name)
 
 
-# ---------------------------------------------------------------------------
 # Risk-report assembly
-# ---------------------------------------------------------------------------
 
 
 def test_build_risk_report_reflects_holdout_failure() -> None:
@@ -84,9 +80,7 @@ def test_build_risk_report_no_holdout_yields_no_clearance() -> None:
     assert clearance is None
 
 
-# ---------------------------------------------------------------------------
 # MCP tool surface
-# ---------------------------------------------------------------------------
 
 
 @pytest.fixture

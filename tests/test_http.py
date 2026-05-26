@@ -155,9 +155,7 @@ def test_send_tolerates_non_json_body(monkeypatch: pytest.MonkeyPatch) -> None:
     assert result.response_size_bytes == len(b"<html>server error</html>")
 
 
-# ---------------------------------------------------------------------------
 # Helper-function coverage
-# ---------------------------------------------------------------------------
 
 
 def test_filter_headers_keeps_allowlist_and_x_prefix() -> None:

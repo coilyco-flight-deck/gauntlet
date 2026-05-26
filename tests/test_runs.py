@@ -29,9 +29,7 @@ from gauntlet.server import (
 
 from ._factories import make_execution_result
 
-# ---------------------------------------------------------------------------
 # Shared fixtures
-# ---------------------------------------------------------------------------
 
 
 _AUTHZ_PLAN = Plan(
@@ -74,9 +72,7 @@ def _make_iteration(spec: IterationSpec) -> IterationRecord:
     )
 
 
-# ---------------------------------------------------------------------------
 # RunStore behaviour
-# ---------------------------------------------------------------------------
 
 
 def test_start_run_returns_unique_ids(tmp_path: Path) -> None:
@@ -182,10 +178,8 @@ def test_list_trial_ids_unknown_run_raises(tmp_path: Path) -> None:
         store.list_trial_ids("nonexistent")
 
 
-# ---------------------------------------------------------------------------
-# MCP tool surface — exercised against the default ``.gauntlet/runs`` path
+# MCP tool surface; exercised against the default .gauntlet/runs path
 # in a chdir'd tmp_path, the way the host invokes them.
-# ---------------------------------------------------------------------------
 
 
 def test_start_run_tool_returns_run_id(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -242,9 +236,7 @@ def test_assemble_run_report_buffer_mode(tmp_path: Path, monkeypatch: pytest.Mon
     assert out["clearance"]["recommendation"] == "block"
 
 
-# ---------------------------------------------------------------------------
 # Buffer robustness: corrupt-line tolerance, schema_version, flock concurrency
-# ---------------------------------------------------------------------------
 
 
 def test_manifest_includes_schema_version(tmp_path: Path) -> None:

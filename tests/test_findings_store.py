@@ -51,9 +51,7 @@ def _finding(issue: str) -> Finding:
     )
 
 
-# ---------------------------------------------------------------------------
 # FindingsStore unit behavior
-# ---------------------------------------------------------------------------
 
 
 def test_record_then_recurring_surfaces_repeated_issues(tmp_path: Path) -> None:
@@ -168,9 +166,7 @@ def test_sorting_prefers_higher_occurrence_then_issue_name(tmp_path: Path) -> No
     assert [r["issue"] for r in recurring] == ["issue_a", "issue_b"]
 
 
-# ---------------------------------------------------------------------------
 # MCP integration via assemble_run_report + recurring_failures
-# ---------------------------------------------------------------------------
 
 
 _AUTHZ_PLAN = Plan(

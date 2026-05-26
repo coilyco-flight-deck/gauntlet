@@ -20,9 +20,8 @@ import re
 
 from .models import Plan
 
-# Phrases in a blocker that strongly imply the holdout plan should exercise
-# at least two distinct users. Kept lowercase so we can match against a
-# lowercased blocker.
+# Phrases implying the holdout plan needs at least two distinct users.
+# Lowercase so we can match against a lowercased blocker.
 _CROSS_USER_PHRASES = (
     "non-owner",
     "other user",

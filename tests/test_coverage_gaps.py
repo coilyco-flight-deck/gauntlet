@@ -41,9 +41,7 @@ from gauntlet.loop import (
 from gauntlet.models import AssertionResult
 from gauntlet.server import _load_trials
 
-# ---------------------------------------------------------------------------
 # _log.py — non-JSON-serializable extras and exception payloads
-# ---------------------------------------------------------------------------
 
 
 class _Unserializable:
@@ -118,9 +116,7 @@ def test_log_tool_call_records_exception_and_reraises() -> None:
     )
 
 
-# ---------------------------------------------------------------------------
 # loop.py — bucket fallbacks and timing-anomaly robustness
-# ---------------------------------------------------------------------------
 
 
 def test_status_bucket_returns_none_for_out_of_range() -> None:
@@ -188,9 +184,7 @@ def test_timing_anomalies_skips_unconvertible_duration() -> None:
     assert _timing_anomalies([_iteration_with_step(step)]) == []
 
 
-# ---------------------------------------------------------------------------
 # loop._build_clearance — pass and conditional recommendations
-# ---------------------------------------------------------------------------
 
 
 def _spec() -> IterationSpec:
@@ -237,9 +231,7 @@ def test_build_clearance_conditional_recommendation() -> None:
     assert clearance.recommendation == "conditional"
 
 
-# ---------------------------------------------------------------------------
 # server._load_trials — single-file path (not a directory)
-# ---------------------------------------------------------------------------
 
 
 def test_load_trials_from_single_file(tmp_path: Path) -> None:
@@ -263,9 +255,7 @@ def test_load_trials_missing_path_returns_empty(tmp_path: Path) -> None:
     assert _load_trials(str(tmp_path / "does-not-exist")) == []
 
 
-# ---------------------------------------------------------------------------
 # executor — invalid-matcher branches return failing assertion, not raise
-# ---------------------------------------------------------------------------
 
 
 def _evaluate(expected: Any, status: int) -> AssertionResult:
@@ -305,9 +295,7 @@ def test_assertion_matcher_rejects_unknown_dict_shape() -> None:
     assert "unsupported shape" in result.detail
 
 
-# ---------------------------------------------------------------------------
 # http._classify_connection_error — DNS / reset / other branches
-# ---------------------------------------------------------------------------
 
 
 def test_classify_dns_failure_via_name_or_service() -> None:
@@ -330,9 +318,7 @@ def test_classify_other_error_fallback() -> None:
     assert _classify_connection_error(exc) == "other_error"
 
 
-# ---------------------------------------------------------------------------
 # models — validator failure paths
-# ---------------------------------------------------------------------------
 
 
 def test_trial_id_rejects_non_snake_case() -> None:
@@ -351,9 +337,7 @@ def test_execution_result_empty_assertions_is_perfect_score() -> None:
     assert result.satisfaction_score == 1.0
 
 
-# ---------------------------------------------------------------------------
 # Drone extract — dotted-path lookup + missing key silently skipped
-# ---------------------------------------------------------------------------
 
 
 class _FakeApi:

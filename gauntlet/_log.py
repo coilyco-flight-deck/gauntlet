@@ -36,9 +36,8 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from typing import Any
 
-# Reserved keys from ``LogRecord`` that aren't user extras. We diff the record
-# dict against this set to pick out arbitrary structured fields the caller
-# attached via ``extra={...}``.
+# Reserved LogRecord keys; we diff the record dict against this set
+# to pick out arbitrary structured fields attached via extra={...}.
 _RESERVED_LOGRECORD_KEYS = {
     "args",
     "asctime",

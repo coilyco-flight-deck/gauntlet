@@ -15,11 +15,8 @@ import requests as http
 
 from .models import HttpRequest, HttpResponse
 
-# Filter applied to ``requests.Response.headers`` before surfacing them on
-# ``ExecutionStepResult.response_headers``. Keeping this list short and
-# module-level makes "what the Inspector gets to see" obvious and auditable.
-# Any header starting with ``X-`` also passes (fingerprinting / custom
-# framework headers are often the actionable signal).
+# Allowlist for response headers surfaced to the Inspector. Anything
+# with an X- prefix also passes (fingerprinting / framework headers).
 _INTERESTING_HEADERS = frozenset(
     h.lower()
     for h in (

@@ -40,9 +40,7 @@ def _drone(responses: list[HttpResponse]) -> tuple[Drone, _StubApi]:
     return Drone(stub), stub  # type: ignore[arg-type]
 
 
-# ---------------------------------------------------------------------------
 # Task 1: extraction
-# ---------------------------------------------------------------------------
 
 
 def test_extract_captures_flat_key_into_template() -> None:
@@ -189,9 +187,7 @@ def test_explicit_extract_supersedes_legacy_shortcut() -> None:
     assert stub.calls[1][1].path == "/tasks/alpha"
 
 
-# ---------------------------------------------------------------------------
 # Task 2: metadata propagation from SendResult into ExecutionStepResult
-# ---------------------------------------------------------------------------
 
 
 def test_send_result_metadata_flows_into_step_result() -> None:
@@ -239,9 +235,7 @@ def test_execution_step_result_defaults_preserve_existing_fixtures() -> None:
     assert step.outcome == "ok"
 
 
-# ---------------------------------------------------------------------------
 # Sanity: Drone's public wiring still accepts a real HttpApi type.
-# ---------------------------------------------------------------------------
 
 
 def test_drone_accepts_httpapi_instance() -> None:
@@ -249,9 +243,7 @@ def test_drone_accepts_httpapi_instance() -> None:
     _ = Drone(HttpApi("http://unused"))
 
 
-# ---------------------------------------------------------------------------
 # Task 3: richer assertion matchers
-# ---------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize(

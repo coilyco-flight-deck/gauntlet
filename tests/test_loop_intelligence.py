@@ -69,9 +69,7 @@ def _record(
     )
 
 
-# ---------------------------------------------------------------------------
 # Failure clustering
-# ---------------------------------------------------------------------------
 
 
 def test_failure_clustering_groups_by_endpoint_method_severity() -> None:
@@ -126,9 +124,7 @@ def test_failure_clustering_skips_anomalies() -> None:
     assert report.failure_clusters == []
 
 
-# ---------------------------------------------------------------------------
 # Coverage gap analysis
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_gaps_only_2xx_reports_missing_345xx() -> None:
@@ -184,9 +180,7 @@ def test_coverage_gaps_reports_only_missing_buckets() -> None:
     assert report.coverage_gaps == ["missing 5xx", "missing 3xx"]
 
 
-# ---------------------------------------------------------------------------
 # Response-fingerprint collisions
-# ---------------------------------------------------------------------------
 
 
 def test_response_collisions_detected_across_distinct_plans() -> None:
@@ -243,9 +237,7 @@ def test_response_collisions_requires_three_occurrences() -> None:
     assert report.response_collisions == []
 
 
-# ---------------------------------------------------------------------------
 # Timing anomalies
-# ---------------------------------------------------------------------------
 
 
 def test_timing_anomalies_empty_when_duration_missing() -> None:
@@ -302,9 +294,7 @@ def test_timing_anomalies_requires_three_samples() -> None:
     assert report.timing_anomalies == []
 
 
-# ---------------------------------------------------------------------------
 # Regression: existing fields stay populated
-# ---------------------------------------------------------------------------
 
 
 def test_existing_risk_report_fields_still_populated() -> None:

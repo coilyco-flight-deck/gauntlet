@@ -65,10 +65,8 @@ class RunStore:
 
     def __init__(self, root: str | Path = DEFAULT_RUNS_PATH) -> None:
         self._root = Path(root)
-        # Per-file counter of JSONL lines that failed to parse on read. Keyed
-        # by ``(run_id, trial_id)`` — file-name agnostic because corrupt
-        # records in either the iteration or holdout buffer are treated the
-        # same way by the host.
+        # Counter of unparseable JSONL lines keyed by (run_id, trial_id);
+        # file-name agnostic since iteration/holdout buffers are equivalent.
         self._corrupt_counts: dict[tuple[str, str], int] = {}
 
     def start_run(self, trial_ids: list[str]) -> str:

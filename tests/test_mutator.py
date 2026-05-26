@@ -75,9 +75,7 @@ def _one_user_plan() -> Plan:
     )
 
 
-# ---------------------------------------------------------------------------
 # Per-strategy shape
-# ---------------------------------------------------------------------------
 
 
 def _find(variants: list[Plan], suffix: str) -> Plan:
@@ -125,10 +123,8 @@ def test_reverse_order_reverses_steps() -> None:
 def test_strategies_are_skipped_when_they_noop() -> None:
     seed = _one_user_plan()
     variants = mutate_plans([seed], max_variants=4)
-    # swap_users: needs ≥ 2 distinct users — skip.
-    # toggle_expected: no assertions — skip.
-    # reverse_order: only one step — skip.
-    # drop_field: body={"title": "t"} — one key, still mutable.
+    # Expected skips: swap_users (1 user), toggle_expected (no asserts),
+    # reverse_order (1 step). drop_field still applies (body has one key).
     suffixes = {v.name.rsplit(":mut-", 1)[-1] for v in variants}
     assert "swap_users" not in suffixes
     assert "toggle_expected" not in suffixes
@@ -147,9 +143,7 @@ def test_empty_input_returns_empty() -> None:
     assert mutate_plans([], max_variants=4) == []
 
 
-# ---------------------------------------------------------------------------
 # Determinism
-# ---------------------------------------------------------------------------
 
 
 def test_mutator_is_deterministic() -> None:
@@ -162,17 +156,14 @@ def test_mutator_is_deterministic() -> None:
 def test_mutator_determinism_across_seed_plan_ordering() -> None:
     rich = _rich_plan()
     single = _one_user_plan()
-    # Different input orderings should not produce identical outputs (the
-    # strategy-major iteration interleaves seeds), but each ordering should
-    # be stable on its own.
+    # Strategy-major iteration interleaves seeds, so different input
+    # orderings need not match, but each ordering must be stable on its own.
     a1 = mutate_plans([rich, single], max_variants=4)
     a2 = mutate_plans([rich, single], max_variants=4)
     assert [v.model_dump() for v in a1] == [v.model_dump() for v in a2]
 
 
-# ---------------------------------------------------------------------------
 # MCP tool integration
-# ---------------------------------------------------------------------------
 
 
 def test_mutate_plans_mcp_tool_sees_recorded_plans(

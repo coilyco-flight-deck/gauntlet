@@ -27,9 +27,7 @@ from gauntlet import (
 )
 from gauntlet.loop import _confidence_score
 
-# ---------------------------------------------------------------------------
 # Strategies
-# ---------------------------------------------------------------------------
 
 
 def _plan_strategy() -> st.SearchStrategy[Plan]:
@@ -110,9 +108,7 @@ def _trial_report_strategy() -> st.SearchStrategy[TrialReport]:
     )
 
 
-# ---------------------------------------------------------------------------
 # _confidence_score invariants
-# ---------------------------------------------------------------------------
 
 
 @given(records=st.lists(_iteration_record_strategy(), max_size=6), coverage=st.just([]))
@@ -137,9 +133,7 @@ def test_confidence_score_deterministic(records: list[IterationRecord]) -> None:
     assert a == b
 
 
-# ---------------------------------------------------------------------------
 # aggregate_final_clearance invariants
-# ---------------------------------------------------------------------------
 
 
 @given(per_trial=st.lists(_trial_report_strategy(), max_size=5))
@@ -175,9 +169,7 @@ def test_empty_per_trial_blocks() -> None:
     assert final.per_trial_reports == []
 
 
-# ---------------------------------------------------------------------------
 # build_risk_report invariants
-# ---------------------------------------------------------------------------
 
 
 def test_build_risk_report_empty_inputs_deterministic() -> None:

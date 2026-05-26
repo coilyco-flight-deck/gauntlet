@@ -90,9 +90,8 @@ class AssertionResult(GauntletModel):
 
 
 class ExecutionResult(GauntletModel):
-    # Override extra="forbid" so the computed ``satisfaction_score`` can survive
-    # a JSON round-trip through the run buffer (model_dump emits it, validate
-    # would otherwise reject it as an unknown field).
+    # extra="ignore" so computed satisfaction_score survives a JSON
+    # round-trip through the run buffer.
     model_config = ConfigDict(extra="ignore")
 
     plan_name: str
