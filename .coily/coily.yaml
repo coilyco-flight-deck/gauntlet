@@ -45,5 +45,3 @@ catalog:
   lifecycle: production
   description: "Two-role adversarial MCP server that infers software correctness by observing how code behaves under sustained, targeted attack."
   dependsOn: []
-  providesApis:
-    - gauntlet-mcp
