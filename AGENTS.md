@@ -2,61 +2,55 @@
 
 See `../AGENTS.md` for workspace-level conventions (git workflow, test/lint autonomy, readonly ops, writing voice, deploy knowledge). This file covers only what's specific to this repo.
 
----
+## Scope
 
-Developer reference for agents and humans working on this codebase.
+Gauntlet is a two-role adversarial MCP server: a host Claude Code agent plays Attacker and Inspector, Gauntlet provides deterministic tools (config loading, plan execution, risk-report assembly) against a running HTTP service. Public-surface changes (MCP tools, subagent allowlists, skill triggers, Trial schema) are governed by [docs/scope.md](docs/scope.md) - read it before touching that surface.
 
-## Operating model
+## Project shape
 
-Gauntlet runs **exclusively as an MCP server inside Claude Code**. There is no CLI, no standalone invocation. The host Claude Code agent plays the Attacker and Inspector roles; Gauntlet exposes deterministic tools (config loading, plan execution, risk-report assembly) via `gauntlet/server.py`. No Anthropic/OpenAI credentials are needed - the host provides auth.
+Runs **exclusively as an MCP server inside Claude Code**. No CLI, no standalone invocation. Server entry is `gauntlet/server.py`; models in `gauntlet/models.py`; subagent definitions in `agents/`; host skills in `skills/`. No Anthropic/OpenAI credentials - the host provides auth. See [docs/architecture.md](docs/architecture.md) for the module map and [docs/usage.md](docs/usage.md) for the driven loop.
 
-## Docs
+## Repo boundaries
 
-- [Scope](SCOPE.md) - public API surface, internals, non-goals. Read before adding anything to the MCP tool surface, the subagent allowlists, the skill triggers, or the Trial schema.
-- [Architecture](docs/architecture.md) - module map, MCP tool surface, train/test split, design decisions
-- [Development](docs/development.md) - setup, tests, linting, Docker, CI
-- [Usage](docs/usage.md) - host runbook: the driven loop, interpreting results
-
-## Before every commit
-
-Sync `docs/architecture.md` with the current module structure in `gauntlet/`. Check for new files, removed files, new classes/protocols, and changed abstractions.
-
-## Scope discipline
-
-Before adding, removing, or renaming anything on Gauntlet's public surface (MCP tools, subagent allowlists, skill triggers, Trial YAML fields), check [SCOPE.md](SCOPE.md). If the change would land under "Non-goals", surface it to the user instead of doing it. Internal refactors don't need this check.
-
-## Approved commands
-
-Any command listed in [docs/development.md](docs/development.md) may be run without requesting user approval.
-
-## Rules
-
-After any code change:
-
-1. Run `docker compose run --rm test` - all tests must pass
-2. Run `uv run ruff check . && uv run ruff format --check .` - no lint or format errors
-3. Run `uv run mypy gauntlet tests --strict` - no type errors
-
-Pre-commit enforces rules 2 and 3 automatically on `git commit`.
-
----
-
-## Post-push follow-up (auto-schedule)
-
-Per the workspace "Default to proactive scheduling" rule: after pushing to `main`, schedule a wake-up to verify CI passed.
-
-- **Cadence**: 240s after push.
-- **Verify CI**: `coily gh run list --repo coilysiren/gauntlet --limit 1` should show `completed/success`. Re-schedule once at +180s if in progress; surface and stop on failure.
-- **Skip** for docs-only pushes.
+Gauntlet does one trial against one SUT per call; the host loops. It never calls an LLM and ships no CI gate - consumers that want one wrap Gauntlet themselves. Storage under `.gauntlet/` is an implementation detail; nothing outside Gauntlet reads it.
 
 ## Commands
 
-Route every dev command through coily, which reads [`.coily/coily.yaml`](.coily/coily.yaml). The lockdown denies bare invocations of the underlying tools (`uv`, `docker`, etc.). Add new verbs to that file before invoking them.
+Route every dev command through coily, which reads [`.coily/coily.yaml`](.coily/coily.yaml). The lockdown denies bare `uv` / `docker`. Add new verbs to that file before invoking them. Any command listed in [docs/development.md](docs/development.md) may be run without requesting approval.
+
+## Validation
+
+After any code change:
+
+1. `coily exec test` - docker compose pytest suite, all green.
+2. `coily exec lint` and `coily exec fmt-check` - no ruff lint or format errors.
+3. `coily exec typecheck` - `mypy --strict` clean across `gauntlet/` and `tests/`.
+
+Pre-commit enforces lint, format, types, and the agentic-os shared hook block. Never `--no-verify`.
+
+## Safety
+
+Inherited from `../AGENTS.md`. Readonly git and shell commands run without confirmation. Never bypass pre-commit; fix the violation instead.
+
+## Cross-repo contracts
+
+The MCP tool surface in `gauntlet/server.py`, the per-role subagent allowlists in `agents/`, the skill triggers in `skills/`, and the Trial YAML schema are the contracts a host binds to. They cannot move silently; [docs/scope.md](docs/scope.md) is the source of truth for what counts as breaking.
+
+## Release
+
+Shipped as a Claude Code plugin (`.claude-plugin/`). `coily exec release <patch|minor|major> --issue N` bumps `plugin.json` / `marketplace.json` / `pyproject.toml` in lockstep, tags, and pushes. Commit to canonical Forgejo `main`; the GitHub mirror stays PR-gated.
+
+## Agent rules
+
+- Before every commit, sync [docs/architecture.md](docs/architecture.md) with the current module structure in `gauntlet/` (new/removed files, changed abstractions).
+- Before changing the public surface, check [docs/scope.md](docs/scope.md); if the change lands under "Non-goals", surface it instead of doing it.
+- After pushing to `main`, schedule a wake-up ~240s later to verify CI (`coily gh run list --repo coilysiren/gauntlet --limit 1` shows `completed/success`). Skip for docs-only pushes.
 
 ## See also
 
 - [README.md](README.md) - human-facing intro.
 - [docs/FEATURES.md](docs/FEATURES.md) - inventory of what ships today.
-- [.coily/coily.yaml](.coily/coily.yaml) - allowlisted commands. Agents route through coily, not bare `make` / `uv` / `python` / `npm` / `cargo` / `dotnet`.
+- [.coily/coily.yaml](.coily/coily.yaml) - allowlisted commands.
+- [docs/scope.md](docs/scope.md) - public surface and non-goals.
 
-Cross-reference convention from [coilysiren/agentic-os-kai#313](https://github.com/coilysiren/agentic-os-kai/issues/313).
+Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilysiren/agentic-os/issues/59).

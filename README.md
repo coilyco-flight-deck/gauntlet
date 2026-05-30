@@ -25,36 +25,18 @@ claude plugin marketplace add coilysiren/gauntlet
 claude plugin install gauntlet@coilysiren-gauntlet
 ```
 
-Restart Claude Code so the skill, MCP server, and subagents register. Confirm with `/mcp` and "run gauntlet". No Anthropic creds needed; the host has auth.
+Restart Claude Code so the skill, MCP server, and subagents register. Confirm with `/mcp` and "run gauntlet". No Anthropic creds needed; the host has auth. Local dev: `git clone ... && claude --plugin-dir path/to/gauntlet`.
 
-Local dev: `git clone ... && claude --plugin-dir path/to/gauntlet`. Updates: enable auto-update under `/plugin > Marketplaces`, or `/plugin marketplace update coilysiren-gauntlet` + `/reload-plugins`.
-
-The plugin delivers the MCP server, the `gauntlet` skill (orchestrator loop), `gauntlet-author` skill (spec to trial YAMLs), and `gauntlet-attacker` / `-inspector` / `-holdout-evaluator` subagents whose MCP allowlists enforce the train/test split.
-
-## MCP tools
-
-- `list_trials` - attacker-safe views, no blockers.
-- `get_trial` - full trial including blockers (orchestrator + holdout only).
-- `execute_plan` - run a Plan against the SUT.
-- `start_run` - init the per-run buffer, returns `run_id`.
-- `record_iteration` / `read_iteration_records` - per-trial iteration buffer (rejects blocker text).
-- `record_holdout_result` / `read_holdout_results` - holdout buffer.
-- `assemble_run_report` - per-trial `RiskReport` + `Clearance`; persists confirmed failures.
-- `assemble_final_clearance` - aggregate to one `FinalClearance` for the run.
-- `replay_finding` - re-execute a stored finding's `ReplayBundle`.
-- `mutate_plans` - deterministic plan variants (drop field, rotate users, etc.).
-- `recurring_failures` - findings showing up in 2+ of the last N runs.
-
-The train/test split is enforced via per-role MCP allowlists (see [`agents/`](agents/)). The Attacker subagent literally cannot call `get_trial`.
+The plugin delivers the MCP server, the `gauntlet` skill (orchestrator loop), `gauntlet-author` skill (spec to trial YAMLs), and `gauntlet-attacker` / `-inspector` / `-holdout-evaluator` subagents whose MCP allowlists enforce the train/test split. The Attacker subagent literally cannot call `get_trial`. The full MCP tool surface is listed in [`docs/FEATURES.md`](docs/FEATURES.md).
 
 ## Project config
 
 ```
 your-project/
-├── .gauntlet/
-│   └── trials/
-│       ├── task_ownership.yaml
-│       └── ...
+└── .gauntlet/
+    └── trials/
+        ├── task_ownership.yaml
+        └── ...
 ```
 
 Trials define reusable attack strategies. `blockers` are externally observable truths about expected behavior, never loaded into the Attacker context:
@@ -73,7 +55,7 @@ If the SUT requires auth, the orchestrator passes `user_headers` to `execute_pla
 
 ## See also
 
-- [AGENTS.md](AGENTS.md), [docs/FEATURES.md](docs/FEATURES.md), [docs/architecture.md](docs/architecture.md), [.coily/coily.yaml](.coily/coily.yaml).
-- Prior art comparison (RESTler, Schemathesis, ToolFuzz) lives in [`docs/architecture.md`](docs/architecture.md).
+- [AGENTS.md](AGENTS.md), [docs/FEATURES.md](docs/FEATURES.md), [.coily/coily.yaml](.coily/coily.yaml).
+- Prior art (RESTler, Schemathesis, ToolFuzz) and the full model live in [`docs/architecture.md`](docs/architecture.md).
 
 Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilysiren/agentic-os/issues/59).

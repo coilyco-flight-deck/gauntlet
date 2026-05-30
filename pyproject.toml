@@ -35,6 +35,20 @@ select = ["E", "W", "F", "I", "UP", "B"]
 strict = true
 python_version = "3.10"
 
+# Markdown size/location caps come from the agentic-os documentation-layout hook.
+# These paths are exempt: subagent definitions must live in agents/ for the plugin
+# loader, SKILL.md files are functional skill bodies, and the docs below are
+# long-form reference/runbook/template material the 80-line cap does not fit.
+[tool.agentic-os.documentation-layout]
+excludes = [
+    "agents/*.md",
+    "skills/*/SKILL.md",
+    "docs/architecture.md",
+    "docs/usage.md",
+    "docs/development.md",
+    "docs/hardening-prompt-template.md",
+]
+
 [dependency-groups]
 dev = [
     "hatchling>=1.29.0",
