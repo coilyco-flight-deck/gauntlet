@@ -40,4 +40,4 @@ Open this file when a user (not a future Kai with an idea) requests a "Non-goals
 - [../AGENTS.md](../AGENTS.md) - repo operating rules.
 - [FEATURES.md](FEATURES.md) - shipped inventory.
 
-Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilysiren/agentic-os/issues/59).
+Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilyco-flight-deck/agentic-os/issues/59).

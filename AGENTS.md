@@ -53,4 +53,4 @@ Shipped as a Claude Code plugin (`.claude-plugin/`). `coily exec release <patch|
 - [.coily/coily.yaml](.coily/coily.yaml) - allowlisted commands.
 - [docs/scope.md](docs/scope.md) - public surface and non-goals.
 
-Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilysiren/agentic-os/issues/59).
+Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilyco-flight-deck/agentic-os/issues/59).

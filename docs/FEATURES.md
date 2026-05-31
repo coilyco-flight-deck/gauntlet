@@ -4,7 +4,7 @@ Baseline of what Gauntlet does. Bullet added = scope increase. For signatures an
 
 ## Headline shape
 
-- Adversarial inference engine for HTTP services. Host-driven Attacker / Inspector / HoldoutEvaluator loop against a live SUT.
+- Adversarial inference engine for HTTP services. Host-driven Attacker / Inspector / HoldoutEvaluator loop against a SUT.
 - MCP server only - no CLI, Action, library entry, or CI mode. Deterministic surface in `gauntlet/server.py`, stdio to a Claude Code host.
 - Claude Code plugin: MCP server + two skills + three subagents in one install.
 - No model credentials. Gauntlet never calls an LLM; the host provides reasoning and auth.
@@ -14,7 +14,7 @@ Baseline of what Gauntlet does. Bullet added = scope increase. For signatures an
 - Three per-role subagents declare MCP-tool allowlists in YAML frontmatter. Permission-layer, not prompt discipline.
 - Attacker sees `{id, title, description}` only. Inspector reads the iteration buffer only. Neither can call `get_trial` or holdout tools.
 - HoldoutEvaluator reads full `Trial` including `blockers` but cannot `read_iteration_records`, so prior traces never leak in.
-- `record_iteration` rejects any `Finding` carrying a non-null `violated_blocker`. Schema-level enforcement.
+- `record_iteration` rejects any `Finding` carrying a non-null `violated_blocker`. Schema-enforced.
 
 ## MCP tool surface
 
@@ -52,4 +52,4 @@ Guarded by [scope.md](scope.md) "Non-goals": no CLI / shell entry; HTTP only; no
 
 - [README.md](../README.md), [AGENTS.md](../AGENTS.md), [.coily/coily.yaml](../.coily/coily.yaml).
 
-Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilysiren/agentic-os/issues/59).
+Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilyco-flight-deck/agentic-os/issues/59).

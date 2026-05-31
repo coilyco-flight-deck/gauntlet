@@ -1,6 +1,6 @@
 # ⚔️🛡️🎯 Gauntlet
 
-[![CI](https://github.com/coilysiren/gauntlet/actions/workflows/ci.yml/badge.svg)](https://github.com/coilysiren/gauntlet/actions/workflows/ci.yml)
+[![CI](https://github.com/coilyco-flight-deck/gauntlet/actions/workflows/ci.yml/badge.svg)](https://github.com/coilyco-flight-deck/gauntlet/actions/workflows/ci.yml)
 [![Python 3.13](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/release/python-3130/)
 [![mypy strict](https://img.shields.io/badge/mypy-strict-1f5082?logo=python&logoColor=white)](http://mypy-lang.org/)
 [![MCP server](https://img.shields.io/badge/MCP-server-8A63D2)](https://modelcontextprotocol.io/)
@@ -58,4 +58,4 @@ If the SUT requires auth, the orchestrator passes `user_headers` to `execute_pla
 - [AGENTS.md](AGENTS.md), [docs/FEATURES.md](docs/FEATURES.md), [.coily/coily.yaml](.coily/coily.yaml).
 - Prior art (RESTler, Schemathesis, ToolFuzz) and the full model live in [`docs/architecture.md`](docs/architecture.md).
 
-Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilysiren/agentic-os/issues/59).
+Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilyco-flight-deck/agentic-os/issues/59).

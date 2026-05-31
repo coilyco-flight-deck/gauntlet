@@ -13,7 +13,7 @@ Use it when you want to put a service you own through adversarial testing. Autho
 Copy everything between the fences. Replace each `{{SLOT}}`. Drop sections that don't apply (auth, downstream-safety) rather than leaving them empty.
 
 ````
-Harden {{SERVICE_URL}} using gauntlet (https://github.com/coilysiren/gauntlet).
+Harden {{SERVICE_URL}} using gauntlet (https://github.com/coilyco-flight-deck/gauntlet).
 
 I own both the SUT and the repo under test; this is authorized adversarial
 testing of my own infrastructure.
@@ -95,7 +95,7 @@ If a category doesn't apply (no user-controlled URLs, no auth, etc.), drop it. D
 This is the filled-in version Kai actually replays for `eco-mcp-app`. Useful as a reference for what a real `{{ATTACK_SURFACE}}` slot looks like.
 
 ````
-Harden https://eco-mcp.coilysiren.me/ using gauntlet (https://github.com/coilysiren/gauntlet).
+Harden https://eco-mcp.coilysiren.me/ using gauntlet (https://github.com/coilyco-flight-deck/gauntlet).
 
 I own both the SUT and the repo under test; this is authorized adversarial
 testing of my own infrastructure.

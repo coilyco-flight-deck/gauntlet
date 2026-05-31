@@ -10,7 +10,7 @@
 ## Setup
 
 ```bash
-git clone git@github.com:coilysiren/gauntlet.git
+git clone git@github.com:coilyco-flight-deck/gauntlet.git
 cd gauntlet
 uv sync
 uv run pre-commit install  # install git hooks
