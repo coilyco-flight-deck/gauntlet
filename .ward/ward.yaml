@@ -1,0 +1,47 @@
+# Per-repo command allowlist for gauntlet. Coily is the canonical entry
+# point for dev verbs here; the lockdown denies bare uv/docker invocations,
+# so operators (human or agent) type `coily <verb>`, not `uv run pytest`.
+#
+# Test gate is docker-compose-based per AGENTS.md: `docker compose run --rm
+# test` is the canonical pre-commit run. Lint and type checks run via uv.
+#
+# Names follow coily's [a-z0-9-] rule. Argv validation rejects shell
+# metacharacters at invocation time, so flags forward verbatim through
+# coily's user-extras mechanism.
+
+commands:
+  test:
+    run: docker compose run --rm test
+    description: Run the pytest suite inside the canonical docker-compose environment. Matches the pre-commit gate.
+  lint:
+    run: uv run ruff check .
+    description: Lint with ruff.
+  fmt-check:
+    run: uv run ruff format --check .
+    description: Verify ruff formatting is clean.
+  fmt:
+    run: uv run ruff format .
+    description: Apply ruff formatting in place.
+  typecheck:
+    run: uv run mypy gauntlet tests --strict
+    description: Strict mypy type-check across gauntlet/ and tests/.
+  sync:
+    run: uv sync
+    description: Install runtime + dev deps via uv.
+  release:
+    run: uv run python scripts/release.py
+    description: |
+      Bump plugin.json / marketplace.json / pyproject.toml in lockstep, commit, tag vX.Y.Z, push.
+      Usage: coily exec release <patch|minor|major> --issue N [--dry-run] [--no-push].
+      The --issue flag names a release-tracking issue the commit closes (required by the commit-msg hook).
+
+# Catalog metadata for the cross-repo knowledge graph.
+# Schema: coilysiren/agentic-os-kai#420 (tracker).
+catalog:
+  kind: Component
+  type: service
+  system: observability
+  owner: kai
+  lifecycle: production
+  description: "Two-role adversarial MCP server that infers software correctness by observing how code behaves under sustained, targeted attack."
+  dependsOn: []
