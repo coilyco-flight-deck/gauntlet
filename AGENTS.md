@@ -16,15 +16,15 @@ Gauntlet does one trial against one SUT per call; the host loops. It never calls
 
 ## Commands
 
-Route every dev command through coily, which reads [`.coily/coily.yaml`](.coily/coily.yaml). The lockdown denies bare `uv` / `docker`. Add new verbs to that file before invoking them. Any command listed in [docs/development.md](docs/development.md) may be run without requesting approval.
+Route every dev command through ward, which reads [`.ward/ward.yaml`](.ward/ward.yaml) (run verbs with `ward exec <verb>`). The lockdown denies bare `uv` / `docker`. Add new verbs to that file before invoking them. Any command listed in [docs/development.md](docs/development.md) may be run without requesting approval.
 
 ## Validation
 
 After any code change:
 
-1. `coily exec test` - docker compose pytest suite, all green.
-2. `coily exec lint` and `coily exec fmt-check` - no ruff lint or format errors.
-3. `coily exec typecheck` - `mypy --strict` clean across `gauntlet/` and `tests/`.
+1. `ward exec test` - docker compose pytest suite, all green.
+2. `ward exec lint` and `ward exec fmt-check` - no ruff lint or format errors.
+3. `ward exec typecheck` - `mypy --strict` clean across `gauntlet/` and `tests/`.
 
 Pre-commit enforces lint, format, types, and the agentic-os shared hook block. Never `--no-verify`.
 
@@ -38,7 +38,7 @@ The MCP tool surface in `gauntlet/server.py`, the per-role subagent allowlists i
 
 ## Release
 
-Shipped as a Claude Code plugin (`.claude-plugin/`). `coily exec release <patch|minor|major> --issue N` bumps `plugin.json` / `marketplace.json` / `pyproject.toml` in lockstep, tags, and pushes. Commit to canonical Forgejo `main`; the GitHub mirror stays PR-gated.
+Shipped as a Claude Code plugin (`.claude-plugin/`). `ward exec release <patch|minor|major> --issue N` bumps `plugin.json` / `marketplace.json` / `pyproject.toml` in lockstep, tags, and pushes. Commit to canonical Forgejo `main`; the GitHub mirror stays PR-gated.
 
 ## Agent rules
 
@@ -51,6 +51,7 @@ Shipped as a Claude Code plugin (`.claude-plugin/`). `coily exec release <patch|
 - [README.md](README.md) - human-facing intro.
 - [docs/FEATURES.md](docs/FEATURES.md) - inventory of what ships today.
 - [.coily/coily.yaml](.coily/coily.yaml) - allowlisted commands.
+- [.ward/ward.yaml](.ward/ward.yaml) - allowlisted commands (`ward exec`).
 - [docs/scope.md](docs/scope.md) - public surface and non-goals.
 
 Cross-reference convention from [coilysiren/agentic-os#59](https://github.com/coilyco-flight-deck/agentic-os/issues/59).
